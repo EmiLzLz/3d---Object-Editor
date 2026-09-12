@@ -3,6 +3,7 @@ import * as THREE from "three";
 import useGeometryStore from "../store/useGeometryStore";
 import { useFrame } from "@react-three/fiber";
 import CustomShaderMaterial from "three-custom-shader-material";
+import simplexNoise from '../shaders/simplex-noise.glsl';
 
 function MyObject() {
   const count = useGeometryStore((state) => state.count);
@@ -43,14 +44,15 @@ function MyObject() {
           ref={materialRef}
           baseMaterial={THREE.MeshPhysicalMaterial}
           vertexShader={`
+          ${simplexNoise}
+  
           uniform float uTime;
           uniform float uCount;
 
           void main(){
           vec3 pos = position;
-          float noise = 1.0 + sin(pos.x * uCount + uTime * 0.3) * cos(pos.y * uCount + uTime * 0.3) * 0.8;
-          pos *= noise;
-
+          float noise = snoise(vec3(pos.x * uCount, pos.y * uCount, uTime * 0.3));
+          pos += normal * noise * 0.3;
           csm_Position = pos;
           }
         `}
