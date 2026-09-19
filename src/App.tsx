@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import "./App.css";
 import MyObject from "./components/MyObject";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, Environment } from "@react-three/drei";
 import ScreenshotHelper from "./components/ScreenshotHelper";
 import DeformControls from "./components/DeformControls";
 import GeometryControls from "./components/GeometryControls";
@@ -22,13 +22,7 @@ function App() {
         gl={{ preserveDrawingBuffer: true }}
       >
         <OrbitControls />
-        <pointLight
-          position={[0, 6, 0]}
-          intensity={30}
-          distance={10}
-          decay={1}
-          castShadow
-        />
+        <Environment preset="studio" />
         <MyObject />
         <ScreenshotHelper />
       </Canvas>
