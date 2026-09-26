@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import "./App.css";
 import MyObject from "./components/MyObject";
@@ -11,9 +11,13 @@ import RoughnessControls from "./components/RoughnessControls";
 import MaterialPanel from "./components/MaterialPanel";
 import DownloadBtn from "./components/DownloadBtn";
 import MobileDrawer from "./components/MobileDrawer";
+import MouseTracker from "./components/MouseTracker";
 
 function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Handle mousemovement with mousetracker
+  const mouseRef = useRef({ x: 0, y: 0 });
 
   return (
     <div id="main-scene">
@@ -23,7 +27,8 @@ function App() {
       >
         <OrbitControls />
         <Environment preset="studio" />
-        <MyObject />
+        <MouseTracker mouseRef={mouseRef}/>
+        <MyObject mouseRef={mouseRef} />
         <ScreenshotHelper />
       </Canvas>
 

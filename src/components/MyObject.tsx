@@ -4,8 +4,9 @@ import useGeometryStore from "../store/useGeometryStore";
 import { useFrame } from "@react-three/fiber";
 import CustomShaderMaterial from "three-custom-shader-material";
 import simplexNoise from '../shaders/simplex-noise.glsl';
+import type { RefObject } from "react";
 
-function MyObject() {
+function MyObject({ mouseRef }: { mouseRef: RefObject<{ x: number; y: number }> }) {
   const count = useGeometryStore((state) => state.count);
   const metalness = useGeometryStore((state) => state.metalness);
   const roughness = useGeometryStore((state) => state.roughness);
@@ -18,6 +19,10 @@ function MyObject() {
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = state.clock.getElapsedTime();
       materialRef.current.uniforms.uCount.value = count;
+      materialRef.current.uniforms.uMouse.value.set(
+        mouseRef.current.x,
+        mouseRef.current.y
+      )
     }
   });
 
@@ -48,10 +53,11 @@ function MyObject() {
   
           uniform float uTime;
           uniform float uCount;
+          uniform vec2 uMouse;
 
           void main(){
           vec3 pos = position;
-          float noise = snoise(vec3(pos.x * uCount, pos.y * uCount, uTime * 0.3));
+          float noise = snoise(vec3(pos.x * uCount + uMouse.x * 0.5, pos.y * uCount + uMouse.y * 0.5, uTime * 0.3));
           pos += normal * noise * 0.3;
           csm_Position = pos;
           }
@@ -59,6 +65,7 @@ function MyObject() {
           uniforms={{
             uTime: { value: 1 },
             uCount: { value: 0 },
+            uMouse: { value: new THREE.Vector2(0, 0) },
           }}
           color={color}
           flatShading={true}
