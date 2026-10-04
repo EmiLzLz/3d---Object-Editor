@@ -21,6 +21,10 @@ interface GeometryState {
   toggleWireframe: () => void;
   download: (() => void) | null;
   setDownload: (geometryImg: () => void) => void;
+  setCount: (n: number) => void;
+  setMetalness: (n: number) => void;
+  setRoughness: (n: number) => void;
+  setWireframe: (active: boolean) => void;
 }
 
 const useGeometryStore = create<GeometryState>((set) => ({
@@ -75,6 +79,10 @@ const useGeometryStore = create<GeometryState>((set) => ({
     set((state) => ({ wireframeActive: !state.wireframeActive })),
   updateGeometry: (newGeometry) => set({ geometry: newGeometry }),
   setDownload: (geometryImg) => set({ download: geometryImg }),
+  setCount: (n) => set({ count: n }),
+  setMetalness: (n) => set({ metalness: n }),
+  setRoughness: (n) => set({ roughness: n }),
+  setWireframe: (active) => set({ wireframeActive: active }),
 }));
 
 export default useGeometryStore;

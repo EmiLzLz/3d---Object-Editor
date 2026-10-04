@@ -12,6 +12,7 @@ import MaterialPanel from "./components/MaterialPanel";
 import DownloadBtn from "./components/DownloadBtn";
 import MobileDrawer from "./components/MobileDrawer";
 import MouseTracker from "./components/MouseTracker";
+import PresetsList from "./components/PresetsList";
 
 function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -39,6 +40,7 @@ function App() {
       <RoughnessControls />
       <MaterialPanel />
       <DownloadBtn />
+      <PresetsList/>
 
       {/* Mobile drawer + tab */}
       <MobileDrawer open={drawerOpen} />
