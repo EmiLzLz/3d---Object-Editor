@@ -6,7 +6,7 @@ import CustomShaderMaterial from "three-custom-shader-material";
 import simplexNoise from '../shaders/simplex-noise.glsl';
 import type { RefObject } from "react";
 
-function MyObject({ mouseRef }: { mouseRef: RefObject<{ x: number; y: number }> }) {
+function MyObject({ mouseRef, meshRef }: { mouseRef: RefObject<{ x: number; y: number }>, meshRef: RefObject<THREE.Mesh>}) {
   const count = useGeometryStore((state) => state.count);
   const metalness = useGeometryStore((state) => state.metalness);
   const roughness = useGeometryStore((state) => state.roughness);
@@ -14,6 +14,9 @@ function MyObject({ mouseRef }: { mouseRef: RefObject<{ x: number; y: number }> 
   const wireframe = useGeometryStore((state) => state.wireframeActive);
   const materialRef = useRef<any>(null);
   const geometry = useGeometryStore((state) => state.geometry);
+
+  
+
 
   useFrame((state) => {
     if (materialRef.current) {
@@ -41,7 +44,7 @@ function MyObject({ mouseRef }: { mouseRef: RefObject<{ x: number; y: number }> 
 
   return (
     <>
-      <mesh>
+      <mesh ref={meshRef}>
         {/* With low values we get a low poly version */}
 
         {updateGeometryJsx()}

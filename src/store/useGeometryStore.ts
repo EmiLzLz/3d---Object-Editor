@@ -1,3 +1,4 @@
+import type { GeometryGroup } from "three";
 import { create } from "zustand";
 
 interface GeometryState {
@@ -20,7 +21,9 @@ interface GeometryState {
   updateGeometry: (newGeometry: string) => void;
   toggleWireframe: () => void;
   download: (() => void) | null;
+  download3D: (() => void) | null;
   setDownload: (geometryImg: () => void) => void;
+  setDownload3D: (GeometryGroup: ()=> void) => void;
   setCount: (n: number) => void;
   setMetalness: (n: number) => void;
   setRoughness: (n: number) => void;
@@ -37,6 +40,7 @@ const useGeometryStore = create<GeometryState>((set) => ({
   geometry: "sphere",
   wireframeActive: false,
   download: null,
+  download3D: null,
   increment: () =>
     set((state) => ({
       count: state.count === state.limit ? state.count : state.count + 1,
@@ -79,6 +83,7 @@ const useGeometryStore = create<GeometryState>((set) => ({
     set((state) => ({ wireframeActive: !state.wireframeActive })),
   updateGeometry: (newGeometry) => set({ geometry: newGeometry }),
   setDownload: (geometryImg) => set({ download: geometryImg }),
+  setDownload3D: (fn) => set({ download3D: fn }),
   setCount: (n) => set({ count: n }),
   setMetalness: (n) => set({ metalness: n }),
   setRoughness: (n) => set({ roughness: n }),

@@ -13,12 +13,14 @@ import DownloadBtn from "./components/DownloadBtn";
 import MobileDrawer from "./components/MobileDrawer";
 import MouseTracker from "./components/MouseTracker";
 import PresetsList from "./components/PresetsList";
+import Download3DHelper from "./components/Download3DHelper";
 
 function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   // Handle mousemovement with mousetracker
   const mouseRef = useRef({ x: 0, y: 0 });
+  const meshRef = useRef<any>(null);
 
   return (
     <div id="main-scene">
@@ -29,8 +31,9 @@ function App() {
         <OrbitControls />
         <Environment preset="studio" />
         <MouseTracker mouseRef={mouseRef}/>
-        <MyObject mouseRef={mouseRef} />
+        <MyObject mouseRef={mouseRef} meshRef={meshRef} />
         <ScreenshotHelper />
+        <Download3DHelper meshRef={meshRef}/>
       </Canvas>
 
       {/* Desktop panels */}
