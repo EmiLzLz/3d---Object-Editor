@@ -556,3 +556,199 @@
     padding: 1.4rem 1.6rem 2rem;
   }
 }
+
+/* ══════════════════════════════════════
+   PRESETS PANEL
+══════════════════════════════════════ */
+.presets-panel {
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 28rem;
+  max-width: 36rem;
+}
+
+.presets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 16rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--shadow-dark) transparent;
+}
+
+.presets-list::-webkit-scrollbar { width: 4px; }
+.presets-list::-webkit-scrollbar-track { background: transparent; }
+.presets-list::-webkit-scrollbar-thumb { background: var(--shadow-dark); border-radius: 2px; }
+
+.presets-empty {
+  font-size: 1rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.presets-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.preset-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.preset-load-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--surface);
+  border: none;
+  border-radius: 0.9rem;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  box-shadow: var(--neu-sm);
+  transition: box-shadow 0.15s;
+  text-align: left;
+}
+
+.preset-load-btn:hover { box-shadow: var(--neu-inset); }
+
+.preset-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.preset-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.preset-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.preset-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.preset-delete-btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.8rem;
+  background: var(--surface);
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--neu-sm);
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.15s, box-shadow 0.15s;
+}
+
+.preset-delete-btn:hover {
+  color: #e05555;
+  box-shadow: var(--neu-inset);
+}
+
+.preset-save-btn {
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.8rem 1.2rem;
+  background: var(--surface);
+  color: var(--accent);
+  border: none;
+  border-radius: 0.9rem;
+  cursor: pointer;
+  box-shadow: var(--neu-sm);
+  letter-spacing: 0.03em;
+  transition: box-shadow 0.15s;
+}
+
+.preset-save-btn:hover { box-shadow: var(--neu-inset); }
+
+/* ══════════════════════════════════════
+   PRESENTATION BTN — siempre visible
+══════════════════════════════════════ */
+.presentation-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 100;
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.9rem 1.6rem;
+  background: var(--surface);
+  color: var(--text-muted);
+  border: none;
+  border-radius: 5rem;
+  cursor: pointer;
+  box-shadow: var(--neu-raised);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: color 0.2s, box-shadow 0.2s;
+}
+
+.presentation-btn:hover { color: var(--text); }
+
+.presentation-btn--active {
+  color: var(--accent);
+  box-shadow: var(--neu-inset);
+}
+
+/* ══════════════════════════════════════
+   DOWNLOAD PANEL — subido para dar
+   espacio al botón de presentación
+══════════════════════════════════════ */
+.download-panel {
+  bottom: 7rem;
+  right: 2rem;
+  min-width: 18rem;
+}
+
+/* ══════════════════════════════════════
+   PRESENTATION MODE — panels salen
+══════════════════════════════════════ */
+.panel {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateX(0);
+}
+
+.presentation-mode .panel {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.presentation-mode .deform-panel,
+.presentation-mode .shape-panel,
+.presentation-mode .material-panel,
+.presentation-mode .presets-panel {
+  transform: translateX(-3rem);
+}
+
+.presentation-mode .metalness-panel,
+.presentation-mode .roughness-panel,
+.presentation-mode .download-panel {
+  transform: translateX(3rem);
+}

@@ -14,26 +14,28 @@ import MobileDrawer from "./components/MobileDrawer";
 import MouseTracker from "./components/MouseTracker";
 import PresetsList from "./components/PresetsList";
 import Download3DHelper from "./components/Download3DHelper";
+import PresentationBtn from "./components/PresentationBtn";
 
 function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [presentationMode, setPresentationMode] = useState(false);
 
   // Handle mousemovement with mousetracker
   const mouseRef = useRef({ x: 0, y: 0 });
   const meshRef = useRef<any>(null);
 
   return (
-    <div id="main-scene">
+    <div id="main-scene" className={presentationMode ? "presentation-mode" : ""}>
       <Canvas
         camera={{ fov: 25, near: 2, position: [0, 2.8, 10] }}
         gl={{ preserveDrawingBuffer: true }}
       >
         <OrbitControls />
         <Environment preset="studio" />
-        <MouseTracker mouseRef={mouseRef}/>
+        <MouseTracker mouseRef={mouseRef} />
         <MyObject mouseRef={mouseRef} meshRef={meshRef} />
         <ScreenshotHelper />
-        <Download3DHelper meshRef={meshRef}/>
+        <Download3DHelper meshRef={meshRef} />
       </Canvas>
 
       {/* Desktop panels */}
@@ -43,7 +45,11 @@ function App() {
       <RoughnessControls />
       <MaterialPanel />
       <DownloadBtn />
-      <PresetsList/>
+      <PresetsList />
+      <PresentationBtn
+        isActive={presentationMode}
+        onToggle={() => setPresentationMode((p) => !p)}
+      />
 
       {/* Mobile drawer + tab */}
       <MobileDrawer open={drawerOpen} />
@@ -52,8 +58,20 @@ function App() {
         onClick={() => setDrawerOpen((p) => !p)}
         aria-label={drawerOpen ? "Close controls" : "Open controls"}
       >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 10L8 5L13 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M3 10L8 5L13 10"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
         Controls
       </button>
