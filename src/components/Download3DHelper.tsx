@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { error } from "three";
+import { useEffect } from "react";
 import { GLTFExporter } from "three/examples/jsm/Addons.js";
 import useGeometryStore from "../store/useGeometryStore";
 import * as THREE from "three";

@@ -1,5 +1,3 @@
-import useGeometryStore from "../store/useGeometryStore";
-
 interface Props {
   isActive: boolean;
   onToggle: () => void;

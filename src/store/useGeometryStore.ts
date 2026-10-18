@@ -1,4 +1,3 @@
-import type { GeometryGroup } from "three";
 import { create } from "zustand";
 
 interface GeometryState {
