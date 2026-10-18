@@ -42,8 +42,6 @@ export function usePresets() {
     presetsHistory.push(newPreset);
 
     localStorage.setItem("my-presets", JSON.stringify(presetsHistory));
-
-    console.log("presets saved!", presetsHistory);
   };
 
   const loadSelectedPreset = (id: string) => {
