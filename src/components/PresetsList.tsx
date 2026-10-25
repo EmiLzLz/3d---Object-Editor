@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { usePresets, getAllPresets, type Preset  } from "../hooks/usePresets";
-
+import { usePresets, getAllPresets, type Preset } from "../hooks/usePresets";
 
 const SHAPE_ICONS: Record<string, string> = {
   sphere: "●",
@@ -10,8 +9,7 @@ const SHAPE_ICONS: Record<string, string> = {
 };
 
 function PresetsList() {
-  const { handlePresetsSave, loadSelectedPreset, deleteId } =
-    usePresets();
+  const { handlePresetsSave, loadSelectedPreset, deleteId } = usePresets();
 
   const [presets, setPresets] = useState(() => getAllPresets());
 
@@ -31,7 +29,8 @@ function PresetsList() {
 
   return (
     <div className="panel presets-panel">
-      <span className="panel-label">⊹ My Presets</span>
+      <span className="panel-label">/presets</span>
+      <span className="panel-title">My Presets</span>
 
       <div className="presets-list">
         {presets.length === 0 ? (
@@ -44,16 +43,15 @@ function PresetsList() {
                   className="preset-load-btn"
                   onClick={() => handleLoad(preset.id)}
                 >
-                  <span
-                    className="preset-icon"
-                    style={{ color: preset.color }}
-                  >
+                  <span className="preset-icon" style={{ color: preset.color }}>
                     {SHAPE_ICONS[preset.geometry] ?? "●"}
                   </span>
                   <span className="preset-info">
                     <span className="preset-name">Preset {index + 1}</span>
                     <span className="preset-meta">
-                      {preset.color.toUpperCase()} · M{preset.metalness.toFixed(1)} · R{preset.roughness.toFixed(1)}
+                      {preset.color.toUpperCase()} · M
+                      {preset.metalness.toFixed(1)} · R
+                      {preset.roughness.toFixed(1)}
                     </span>
                   </span>
                 </button>
