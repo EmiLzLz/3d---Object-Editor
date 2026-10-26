@@ -5,17 +5,25 @@ function DownloadBtn() {
   const download3D = useGeometryStore((state) => state.download3D);
 
   return (
-    <div className="panel download-panel">
-      <span className="panel-label">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 2v8M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-        Export
-      </span>
-      <button className="download-btn" onClick={() => download?.()}>
+    <div
+      className="panel download-panel"
+      role="region"
+      aria-label="Export controls"
+    >
+      <span className="panel-label">/export</span>
+      <span className="panel-title">Export</span>
+      <button
+        className="download-btn"
+        onClick={() => download?.()}
+        aria-label="Download geometry as PNG image"
+      >
         Save as PNG
       </button>
-      <button className="download-btn" onClick={() => download3D?.()}>
+      <button
+        className="download-btn"
+        onClick={() => download3D?.()}
+        aria-label="Download geometry as 3D GLTF file"
+      >
         Save as 3D Object
       </button>
     </div>

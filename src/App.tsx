@@ -25,8 +25,15 @@ function App() {
   const meshRef = useRef<any>(null);
 
   return (
-    <div id="main-scene" className={presentationMode ? "presentation-mode" : ""}>
+    <div
+      id="main-scene"
+      className={presentationMode ? "presentation-mode" : ""}
+      role="application"
+      aria-label="3D geometry editor"
+    >
       <Canvas
+        role="img"
+        aria-label="Interactive 3D geometry preview"
         camera={{ fov: 25, near: 2, position: [0, 2.8, 10] }}
         gl={{ preserveDrawingBuffer: true }}
       >

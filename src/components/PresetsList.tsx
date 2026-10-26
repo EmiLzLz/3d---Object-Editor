@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { usePresets, getAllPresets, type Preset  } from "../hooks/usePresets";
-
+import { usePresets, getAllPresets, type Preset } from "../hooks/usePresets";
 
 const SHAPE_ICONS: Record<string, string> = {
   sphere: "●",
@@ -10,8 +9,7 @@ const SHAPE_ICONS: Record<string, string> = {
 };
 
 function PresetsList() {
-  const { handlePresetsSave, loadSelectedPreset, deleteId } =
-    usePresets();
+  const { handlePresetsSave, loadSelectedPreset, deleteId } = usePresets();
 
   const [presets, setPresets] = useState(() => getAllPresets());
 
@@ -30,37 +28,43 @@ function PresetsList() {
   };
 
   return (
-    <div className="panel presets-panel">
-      <span className="panel-label">⊹ My Presets</span>
-
+    <div
+      className="panel presets-panel"
+      role="region"
+      aria-label="Saved presets"
+    >
+      <span className="panel-label">/presets</span>
+      <span className="panel-title">My Presets</span>
       <div className="presets-list">
         {presets.length === 0 ? (
-          <p className="presets-empty">No presets saved yet</p>
+          <p className="presets-empty" role="status">
+            No presets saved yet
+          </p>
         ) : (
-          <ul className="presets-items">
+          <ul className="presets-items" aria-label="Preset list">
             {presets.map((preset: Preset, index: number) => (
               <li key={preset.id} className="preset-item">
                 <button
                   className="preset-load-btn"
                   onClick={() => handleLoad(preset.id)}
+                  aria-label={`Load preset ${index + 1} — ${preset.geometry}, color ${preset.color}`}
                 >
-                  <span
-                    className="preset-icon"
-                    style={{ color: preset.color }}
-                  >
+                  <span className="preset-icon" style={{ color: preset.color }}>
                     {SHAPE_ICONS[preset.geometry] ?? "●"}
                   </span>
                   <span className="preset-info">
                     <span className="preset-name">Preset {index + 1}</span>
                     <span className="preset-meta">
-                      {preset.color.toUpperCase()} · M{preset.metalness.toFixed(1)} · R{preset.roughness.toFixed(1)}
+                      {preset.color.toUpperCase()} · M
+                      {preset.metalness.toFixed(1)} · R
+                      {preset.roughness.toFixed(1)}
                     </span>
                   </span>
                 </button>
                 <button
                   className="preset-delete-btn"
                   onClick={() => handleDelete(preset.id)}
-                  aria-label="Delete preset"
+                  aria-label={`Delete preset ${index + 1}`}
                 >
                   ✕
                 </button>
@@ -69,8 +73,11 @@ function PresetsList() {
           </ul>
         )}
       </div>
-
-      <button className="preset-save-btn" onClick={handleSave}>
+      <button
+        className="preset-save-btn"
+        onClick={handleSave}
+        aria-label="Save current geometry configuration as preset"
+      >
         + Save current preset
       </button>
     </div>
