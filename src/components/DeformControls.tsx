@@ -14,7 +14,11 @@ function DeformControls() {
   };
 
   return (
-    <div className="panel deform-panel">
+    <div
+      className="panel deform-panel"
+      role="region"
+      aria-label="Deformation controls"
+    >
       <span className="panel-label">/deform</span>
       <span className="panel-title">Deformation</span>
       <div className="slider-row">

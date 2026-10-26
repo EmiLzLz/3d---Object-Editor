@@ -12,15 +12,25 @@ function GeometryControls() {
   const updateGeometry = useGeometryStore((state) => state.updateGeometry);
 
   return (
-    <div className="panel shape-panel">
+    <div
+      className="panel shape-panel"
+      role="region"
+      aria-label="Shape controls"
+    >
       <span className="panel-label">/shape</span>
       <span className="panel-title">Shape</span>
-      <div className="geometry-grid">
+      <div
+        className="geometry-grid"
+        role="group"
+        aria-label="Geometry selection"
+      >
         {SHAPES.map((s) => (
           <button
             key={s.id}
             className={`geo-btn${geometry === s.id ? " geo-btn--active" : ""}`}
             onClick={() => updateGeometry(s.id)}
+            aria-pressed={geometry === s.id}
+            aria-label={`Select ${s.label} geometry`}
           >
             {s.label}
           </button>

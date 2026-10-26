@@ -7,7 +7,11 @@ function MaterialPanel() {
   const toggleWireframe = useGeometryStore((state) => state.toggleWireframe);
 
   return (
-    <div className="panel material-panel">
+    <div
+      className="panel material-panel"
+      role="region"
+      aria-label="Material controls"
+    >
       <span className="panel-label">/material</span>
       <span className="panel-title">Material</span>
       <div className="color-row">
@@ -16,16 +20,16 @@ function MaterialPanel() {
             type="color"
             value={color}
             onChange={(e) => updateColor(e.target.value)}
-            aria-label="Pick color"
+            aria-label="Geometry color"
           />
         </div>
-        <span className="color-hex">{color.toUpperCase()}</span>
+        <span className="color-hex" aria-live="polite">
+          {color.toUpperCase()}
+        </span>
       </div>
       <div className="toggle-row">
-        <span className="toggle-label">
-          <span className="icon">⊞</span> Wireframe
-        </span>
-        <label className="toggle">
+        <span className="toggle-label">Wireframe</span>
+        <label className="toggle" aria-label="Toggle wireframe mode">
           <input
             type="checkbox"
             checked={wireframeActive}

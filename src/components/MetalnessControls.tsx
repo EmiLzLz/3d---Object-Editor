@@ -13,7 +13,11 @@ function MetalnessControls() {
   };
 
   return (
-    <div className="panel metalness-panel">
+    <div
+      className="panel metalness-panel"
+      role="region"
+      aria-label="Metalness controls"
+    >
       <span className="panel-label">/metalness</span>
       <span className="panel-title">Metalness</span>
       <div className="slider-row">

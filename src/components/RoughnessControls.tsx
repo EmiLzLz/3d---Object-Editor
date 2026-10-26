@@ -13,7 +13,11 @@ function RoughnessControls() {
   };
 
   return (
-    <div className="panel roughness-panel">
+    <div
+      className="panel roughness-panel"
+      role="region"
+      aria-label="Roughness controls"
+    >
       <span className="panel-label">/roughness</span>
       <span className="panel-title">Roughness</span>
       <div className="slider-row">

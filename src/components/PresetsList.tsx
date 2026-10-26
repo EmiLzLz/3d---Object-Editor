@@ -28,20 +28,26 @@ function PresetsList() {
   };
 
   return (
-    <div className="panel presets-panel">
+    <div
+      className="panel presets-panel"
+      role="region"
+      aria-label="Saved presets"
+    >
       <span className="panel-label">/presets</span>
       <span className="panel-title">My Presets</span>
-
       <div className="presets-list">
         {presets.length === 0 ? (
-          <p className="presets-empty">No presets saved yet</p>
+          <p className="presets-empty" role="status">
+            No presets saved yet
+          </p>
         ) : (
-          <ul className="presets-items">
+          <ul className="presets-items" aria-label="Preset list">
             {presets.map((preset: Preset, index: number) => (
               <li key={preset.id} className="preset-item">
                 <button
                   className="preset-load-btn"
                   onClick={() => handleLoad(preset.id)}
+                  aria-label={`Load preset ${index + 1} — ${preset.geometry}, color ${preset.color}`}
                 >
                   <span className="preset-icon" style={{ color: preset.color }}>
                     {SHAPE_ICONS[preset.geometry] ?? "●"}
@@ -58,7 +64,7 @@ function PresetsList() {
                 <button
                   className="preset-delete-btn"
                   onClick={() => handleDelete(preset.id)}
-                  aria-label="Delete preset"
+                  aria-label={`Delete preset ${index + 1}`}
                 >
                   ✕
                 </button>
@@ -67,8 +73,11 @@ function PresetsList() {
           </ul>
         )}
       </div>
-
-      <button className="preset-save-btn" onClick={handleSave}>
+      <button
+        className="preset-save-btn"
+        onClick={handleSave}
+        aria-label="Save current geometry configuration as preset"
+      >
         + Save current preset
       </button>
     </div>
