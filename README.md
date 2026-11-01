@@ -1,54 +1,60 @@
-# React + TypeScript + Vite
+# 3D Object Editor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Shape, deform and export 3D objects right in your browser.**
 
-Currently, two official plugins are available:
+![Preview](./public/proyecto_1_ss.webp)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**[Live demo](#)** 
 
-## Expanding the ESLint configuration
+## The idea
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Most 3D tools ask you to install heavy software before you can see anything. This project explores the opposite: a lightweight editor that runs in the browser, where you pick a shape, push it into something organic, tweak its material and see the result instantly.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+It started as a single sphere and a handful of properties to experiment with. It grew into a small real-time editor for procedural shapes, built to understand how a modern WebGL pipeline works, from React state all the way down to the GPU.
+
+## What you can do
+
+- **Pick a base shape:** sphere, box, icosahedron or torus.
+- **Deform it:** noise-driven displacement turns clean primitives into organic forms. Move your cursor and the pattern shifts with it.
+- **Tune the material:** color, metalness, roughness and wireframe, lit by an HDR studio environment.
+- **Save presets:** keep your favorite configurations in the browser and reload them with one click.
+- **Export:** download a PNG snapshot or the mesh as a glTF file.
+- **Present:** hide the interface to show the object on its own. On mobile, the controls collapse into a drawer.
+
+## What it's for
+
+- Rapid prototyping of abstract shapes and visual ideas.
+- Exploring how materials react to light.
+- Creating base meshes to continue in Blender or in game engines. glTF is supported by Blender, and by Unity and Unreal Engine through their glTF importers.
+- Learning: a compact, readable example of React Three Fiber, custom shaders and global state working together.
+
+> **Note:** the exported file contains the shape's base geometry. Baking the shader deformation into it is on the roadmap.
+
+## How it works
+
+Deformation runs on the GPU. A custom vertex shader, injected into three.js's physically based material through [three-custom-shader-material](https://github.com/FarazzShaikh/THREE-CustomShaderMaterial), displaces every vertex along its normal using 3D simplex noise. React only updates a few uniforms per frame (time, deformation level and mouse position) and the GPU does the rest, in parallel for all vertices. Because the standard material is preserved, lighting, metalness and roughness keep working as usual.
+
+A single Zustand store connects the interface with the scene: controls write to it and the 3D object reads from it. Presets are persisted in `localStorage`.
+
+**Stack:** React 19, TypeScript, Vite, three.js, React Three Fiber, Drei, Zustand, GLSL.
+
+## Run it locally
+
+```bash
+git clone https://github.com/EmiLzLz/3d---Object-Editor.git
+cd 3d---Object-Editor
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Where it's going
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+This editor is a first step towards a broader goal: building immersive web experiences that go beyond traditional pages, and connecting the web with tools like Blender, Unity and Unreal Engine. Next up:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- [ ] Bake the shader deformation into exported models
+- [ ] Visual shape selector with live previews
+- [ ] Self-hosted HDR environment (no CDN dependency)
+
+## Credits
+
+Simplex noise by Ian McEwan, Ashima Arts (MIT License). Shader fundamentals learned from [The Book of Shaders](https://thebookofshaders.com/).
