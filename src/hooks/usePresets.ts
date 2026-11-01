@@ -1,5 +1,5 @@
 import useGeometryStore from "../store/useGeometryStore";
-import { useShallow } from 'zustand/react/shallow';
+import { useShallow } from "zustand/react/shallow";
 
 export interface Preset {
   id: string;
@@ -11,15 +11,20 @@ export interface Preset {
   geometry: string;
 }
 
+// Fired after presets are saved or deleted so every mounted list can re-read localStorage
+export const PRESETS_CHANGED_EVENT = "presets-changed";
+
 export function usePresets() {
-  const materialProps = useGeometryStore(useShallow((state) => ({
-  count: state.count,
-  metalness: state.metalness,
-  roughness: state.roughness,
-  color: state.color,
-  wireframe: state.wireframeActive,
-  geometry: state.geometry,
-})));
+  const materialProps = useGeometryStore(
+    useShallow((state) => ({
+      count: state.count,
+      metalness: state.metalness,
+      roughness: state.roughness,
+      color: state.color,
+      wireframe: state.wireframeActive,
+      geometry: state.geometry,
+    })),
+  );
 
   const setCount = useGeometryStore((state) => state.setCount);
   const setMetalness = useGeometryStore((state) => state.setMetalness);
@@ -42,6 +47,7 @@ export function usePresets() {
     presetsHistory.push(newPreset);
 
     localStorage.setItem("my-presets", JSON.stringify(presetsHistory));
+    window.dispatchEvent(new Event(PRESETS_CHANGED_EVENT));
   };
 
   const loadSelectedPreset = (id: string) => {
@@ -69,6 +75,7 @@ export function usePresets() {
     const updatePresets = presetsHistory.filter((p) => p.id !== id);
 
     localStorage.setItem("my-presets", JSON.stringify(updatePresets));
+    window.dispatchEvent(new Event(PRESETS_CHANGED_EVENT));
   };
 
   return {
@@ -78,9 +85,9 @@ export function usePresets() {
   };
 }
 
-export const getAllPresets = () => {
-    const presetsHistory =
-      JSON.parse(localStorage.getItem("my-presets") ?? "[]") || [];
+export const getAllPresets = (): Preset[] => {
+  const presetsHistory =
+    JSON.parse(localStorage.getItem("my-presets") ?? "[]") || [];
 
-    return presetsHistory;
-  };
+  return presetsHistory;
+};

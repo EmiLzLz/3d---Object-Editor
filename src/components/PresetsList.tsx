@@ -1,5 +1,10 @@
-import { useState } from "react";
-import { usePresets, getAllPresets, type Preset } from "../hooks/usePresets";
+import { useEffect, useState } from "react";
+import {
+  usePresets,
+  getAllPresets,
+  PRESETS_CHANGED_EVENT,
+  type Preset,
+} from "../hooks/usePresets";
 
 const SHAPE_ICONS: Record<string, string> = {
   sphere: "●",
@@ -8,33 +13,35 @@ const SHAPE_ICONS: Record<string, string> = {
   torus: "◎",
 };
 
-function PresetsList() {
+interface Props {
+  // true when rendered inside the mobile drawer (no floating panel styles)
+  embedded?: boolean;
+}
+
+function PresetsList({ embedded = false }: Props) {
   const { handlePresetsSave, loadSelectedPreset, deleteId } = usePresets();
 
-  const [presets, setPresets] = useState(() => getAllPresets());
+  const [presets, setPresets] = useState<Preset[]>(() => getAllPresets());
 
-  const handleSave = () => {
-    handlePresetsSave();
-    setPresets(getAllPresets());
-  };
-
-  const handleDelete = (id: string) => {
-    deleteId(id);
-    setPresets(getAllPresets());
-  };
-
-  const handleLoad = (id: string) => {
-    loadSelectedPreset(id);
-  };
+  // Desktop panel and mobile drawer both stay mounted, so keep them in sync
+  useEffect(() => {
+    const sync = () => setPresets(getAllPresets());
+    window.addEventListener(PRESETS_CHANGED_EVENT, sync);
+    return () => window.removeEventListener(PRESETS_CHANGED_EVENT, sync);
+  }, []);
 
   return (
     <div
-      className="panel presets-panel"
+      className={embedded ? "presets-embedded" : "panel presets-panel"}
       role="region"
       aria-label="Saved presets"
     >
-      <span className="panel-label">/presets</span>
-      <span className="panel-title">My Presets</span>
+      {!embedded && (
+        <>
+          <span className="panel-label">/presets</span>
+          <span className="panel-title">My Presets</span>
+        </>
+      )}
       <div className="presets-list">
         {presets.length === 0 ? (
           <p className="presets-empty" role="status">
@@ -42,11 +49,11 @@ function PresetsList() {
           </p>
         ) : (
           <ul className="presets-items" aria-label="Preset list">
-            {presets.map((preset: Preset, index: number) => (
+            {presets.map((preset, index) => (
               <li key={preset.id} className="preset-item">
                 <button
                   className="preset-load-btn"
-                  onClick={() => handleLoad(preset.id)}
+                  onClick={() => loadSelectedPreset(preset.id)}
                   aria-label={`Load preset ${index + 1} — ${preset.geometry}, color ${preset.color}`}
                 >
                   <span className="preset-icon" style={{ color: preset.color }}>
@@ -63,7 +70,7 @@ function PresetsList() {
                 </button>
                 <button
                   className="preset-delete-btn"
-                  onClick={() => handleDelete(preset.id)}
+                  onClick={() => deleteId(preset.id)}
                   aria-label={`Delete preset ${index + 1}`}
                 >
                   ✕
@@ -75,7 +82,7 @@ function PresetsList() {
       </div>
       <button
         className="preset-save-btn"
-        onClick={handleSave}
+        onClick={handlePresetsSave}
         aria-label="Save current geometry configuration as preset"
       >
         + Save current preset
