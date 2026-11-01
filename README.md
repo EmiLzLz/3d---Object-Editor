@@ -4,7 +4,7 @@
 
 ![Preview](./public/proyecto_1_ss.webp)
 
-**[Live demo](#)** 
+**[Live demo](https://3d-object-editor-iota.vercel.app/)** 
 
 ## The idea
 
